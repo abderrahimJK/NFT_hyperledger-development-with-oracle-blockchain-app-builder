@@ -76,3 +76,71 @@ After you detect all the necessary business processes over the assets in the cha
 |:-----------------------------------|
 | ```executeQuery``` method enables you to execute SQL-ish queries on top of the world state database! Count, group, filter assets and more. Detailed instructions can be found [here](https://docs.oracle.com/en/database/other-databases/blockchain-enterprise/21.1/user/supported-rich-query-syntax.html#GUID-7A7766A3-EA2C-4A3D-BE62-7B4EC747EE5B).|
 
+# Deployment of the NFT Smartcontract into the Founder Instance
+
+1. First of all we must create the deployable package from the chaincode project. From Visual Studio, push the right button on top of the name of the chaincode project, from the popup menu select the Package option, and select the directory to save the chaincode package file:
+
+<p align="center"  alt="Select The compartment where the instance of the founder organization will be created">
+<img  src="https://github.com/abderrahimJK/NFT_hyperledger-development-with-oracle-blockchain-app-builder/blob/main/assets/p16.png"/>
+</p>
+
+2. Now we are going to access to the Oracle Blockchain Service Console to install and deploy the chaincode package into the Founder instance:
+   - Navigate to the Chaincode tab, and push the Deploy a New Chaincode button:
+
+<p align="center"  alt="Select The compartment where the instance of the founder organization will be created">
+<img  src="https://github.com/abderrahimJK/NFT_hyperledger-development-with-oracle-blockchain-app-builder/blob/main/assets/p17.png"/>
+</p>
+
+3. Select the Advanced Deployment option:
+
+<p align="center"  alt="Select The compartment where the instance of the founder organization will be created">
+<img  src="https://github.com/abderrahimJK/NFT_hyperledger-development-with-oracle-blockchain-app-builder/blob/main/assets/p18.png"/>
+</p>
+
+4. Set all the values to Install the chaincode package into the Founder instance and push the Next button:
+
+   - `Package Label`: Give a name which can help you identify which package is installed in the different existing channels.
+   - `Chaincode Language`: Select among the different languages, based in the language in which you have developed the chaincode.
+   - `Target Peers`: Select the peers in which you want to install the chaincode package.
+   - `Is Packaged Chaincode`: Leave this box unselected if what you are going to upload is a zip file. Select the checkbox for tar.gz files.
+   - `Chaincode Source`: Push the Upload Chaincode File to be able to navigate in your file system to select the chaincode zip file.
+
+<p align="center"  alt="Select The compartment where the instance of the founder organization will be created">
+<img  src="https://github.com/abderrahimJK/NFT_hyperledger-development-with-oracle-blockchain-app-builder/blob/main/assets/p19.png"/>
+</p>
+
+5. If the installation succeed we will see the below success message. Then, next step is the deployment of the chaincode in the selected channel, so you must set all the values related with the deployment phase and push the Next button:
+
+   - `Channel`: Select the channel in which you want to deploy the smartcontract.
+   - `Chaincode Name`: Set the name with which the smartcontract will be deployed on the channel.
+   - `Version`: Asign a number to this deployment, which is aligned with the installed package installed before. In this way you will be able to correlate packages installed with chaincodes deployed in the different channels.
+   - `Init-required`: Select this checkbox if the init method of the chaincode needs to be invoked before allow user transactions.
+   - `Endorsement Policy`: You can specify Endorsment policies during deployment, but for the purpose of this HoL we do not need them.
+   - `Private Data Collection`: You can set Private Data Collections, but for the purpose of this HoL we do not need them.
+
+<p align="center"  alt="Select The compartment where the instance of the founder organization will be created">
+<img  src="https://github.com/abderrahimJK/NFT_hyperledger-development-with-oracle-blockchain-app-builder/blob/main/assets/p20.png"/>
+</p>
+
+6. When you `open Work and Pension Department` service console and select the `Chaincodes` tab, you will see the fresh chaincode you have just installed, deployed on the targeted channel (in my case `default`).
+
+<p align="center"  alt="Select The compartment where the instance of the founder organization will be created">
+<img  src="https://github.com/abderrahimJK/NFT_hyperledger-development-with-oracle-blockchain-app-builder/blob/main/assets/p22.png"/>
+</p>
+
+# Test Chaincodes With Postman
+
+Find the `restproxy` URL in the Tax Authority service console by selecting `Nodes` tab. Copy the URL, as in the picture below.
+
+<p align="center"  alt="Select The compartment where the instance of the founder organization will be created">
+<img  src="https://github.com/abderrahimJK/NFT_hyperledger-development-with-oracle-blockchain-app-builder/blob/main/assets/p23.png"/>
+</p>
+
+## Prepare Postman Collection to execute REST APIs
+
+Here it is a Postman collection prepared to be used agains the two prepared smartcontract.
+The following picture shows all the varibles we have defined and needs to be adapted to your environment:
+
+<p align="center"  alt="Select The compartment where the instance of the founder organization will be created">
+<img  src="https://github.com/abderrahimJK/NFT_hyperledger-development-with-oracle-blockchain-app-builder/blob/main/assets/p24.png"/>
+</p>
