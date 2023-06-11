@@ -144,3 +144,23 @@ The following picture shows all the varibles we have defined and needs to be ada
 <p align="center"  alt="Select The compartment where the instance of the founder organization will be created">
 <img  src="https://github.com/abderrahimJK/NFT_hyperledger-development-with-oracle-blockchain-app-builder/blob/main/assets/p24.png"/>
 </p>
+
+Invoke the chaincode `createArtCollectionToken`. When you receive response **"returnCode"**: "Success", you have `sucessfuly` created new asset on the blockchain.
+
+- Request body :
+```json
+{
+    "chaincode": "{{NFTChaincode}}",
+    "args": [
+        "createArtCollectionToken",
+        "{\"token_id\":\"{{NFTTokenID}}\",\"token_uri\":\"https://ipfs.io/ipfs/QmV68aiT7xw2WX8pmDbeTWpGP2or35NUFan9RagymsLpgV?filename=ArtCollection_NFT1.json\",\"metadata\":{\"painting_name\":\"Oracle - Red Bull Partnership\",\"image\":\"https://ipfs.io/ipfs/QmVap6Gkh3Cp9DiLLWvkvJHpuXpFmYB2GzU1caM57gNcAa?filename=Oracle_RedBull_NFT1.jpeg\",\"painter\":\"Abderrahim\"},\"price\":200,\"on_sale_flag\":false}"
+    ],
+    "timeout": 0,
+    "sync": true
+}
+
+```
+
+<p align="center"  alt="Select The compartment where the instance of the founder organization will be created">
+<img  src="https://github.com/abderrahimJK/NFT_hyperledger-development-with-oracle-blockchain-app-builder/blob/main/assets/p24.jpg"/>
+</p>
