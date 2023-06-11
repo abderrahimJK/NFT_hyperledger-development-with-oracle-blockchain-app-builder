@@ -1,0 +1,12 @@
+{
+  "name": "NFTMarketPlaceMr",
+  "description": "Chaincode package for NFTMarketPlaceMr",
+  "chaincodeName": "NFTMarketPlaceMr",
+  "chaincodeType": "node",
+  "configFileLocation": "f:\\Master SDIA\\1 annee\\semestre_2\\Blockchaine\\OBP\\citizen-to-government-processes_Oracle_Blockchain_Platform\\MoroccoLionsToken.yml",
+  "appBuilderVersion": "22.4.3",
+  "nodeVersion": "v16.17.1",
+  "tokenUser": "admin",
+  "tokenAssetsInfo": ["nft_erc721+_c1"],
+  "enableMvccOptimization": false
+}

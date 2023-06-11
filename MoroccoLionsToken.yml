@@ -1,0 +1,38 @@
+
+ assets:
+    - name: MoroccanArtCollections
+      type: token
+      symbol: ART      #mandatory
+      standard: erc721+   
+      anatomy:
+        type: nonfungible
+        unit: whole
+      behavior:
+        - indivisible      # mandatory
+        - singleton        # mandatory
+        - mintable:        # mandatory
+            max_min_quantity: 20000
+        - transferable
+        - burnable
+        - roles:
+            minter_role_name: minter
+      properties:
+        - name: price
+          type: number
+        - name: on_sale_flag
+          type: boolean
+      metadata:
+        - name: painting_name
+          type: string
+        - name: description
+          type: string
+        - name: image
+          type: string
+        - name: painter_name
+          type: string
+ customMethods:
+    - executeQuery
+    - "createAccountByConsumers(org_id: string, user_id: string, token_type: string)" # Create accounts for consumers while signing up
+    - "sell(token_id: string, selling_price: number)" # Post the token for selling in the marketplace
+    - "buyWithTokens(from_org_id: string, from_user_id: string, to_org_id: string, to_user_id: string, nonfungible_token_id: string, fungible_token_id: string, amount_paid: number)"  # Buy the NFT after paying the using FT Tokens 
+    - "buyWithDirectPayment(from_org_id: string, from_user_id: string, to_org_id: string, to_user_id: string, nonfungible_token_id: string, amount_paid: number)"  # Buy the NFT after paying the amount using payment gateway

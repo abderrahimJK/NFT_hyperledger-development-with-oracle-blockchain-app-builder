@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="NFTMarketPlaceMr">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/NFTMarketPlaceMr/src/controller/NFTMarketPlaceMr.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
