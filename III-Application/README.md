@@ -72,6 +72,92 @@ After you detect all the necessary business processes over the assets in the cha
    - "buyWithDirectPayment(from_org_id: string, from_user_id: string, to_org_id: string, to_user_id: string, nonfungible_token_id: string, amount_paid: number)"  # Buy the NFT after paying the amount using payment gateway
 ```
 
+### implementing custom methods:
+
+```javascript
+/**
+*      
+* BDB sql rich queries can be executed in OBP CS/EE.
+* This method can be invoked only when connected to remote OBP CS/EE network.
+*    
+*/
+@Validator(yup.string())
+    public async executeQuery(query: string) {
+        const result = await this.query(query);
+        return result;
+    }
+@Validator(yup.string(), yup.string(), yup.string())
+          public async createAccountByConsumers(org_id: string, user_id: string, token_type: string) {       
+          //await this.Ctx.ERC721Auth.checkAuthorization('ERC721ACCOUNT.createAccount', 'TOKEN');
+          return await this.Ctx.ERC721Account.createAccount(org_id, user_id, token_type);   
+    }
+@Validator(yup.string(), yup.number())
+public async sell (token_id: string, selling_price: number) {       
+          try {  
+            const token = await this.Ctx.ERC721Token.get(token_id);
+            const t = new MoroccanArtCollections(token)
+            t.price =  selling_price;
+            t.on_sale_flag = true;
+            //console.log(token);           
+            await this.Ctx.ERC721Token.updateToken(t);
+            return `Token ID : '${token_id}' has been posted for selling in the marketplace'`;           
+          } catch(error) {
+                throw new Error(error.message);
+        }
+}
+@Validator(yup.string(), yup.string(), yup.string(), yup.string(), yup.string(), yup.string(), yup.number())
+public async buyWithTokens(from_org_id: string, from_user_id: string, to_org_id: string, to_user_id: string, nonfungible_token_id: string, fungible_token_id: string, amount_paid: number) {
+        try {  
+            const token = await this.Ctx.ERC721Token.get(nonfungible_token_id);
+            const t = new MoroccanArtCollections(token);
+            const oChainUtil = new OChainUtils(this.Ctx.Stub);
+            var msg = `Token ID : '${nonfungible_token_id}' had not been transferred'`;
+            if (t.on_sale_flag==true) {
+                if(t.price == amount_paid) {                   
+                     // @ts-ignore
+                    await oChainUtil.invokeChaincode("LoyaltyToken7", "transferTokens", [fungible_token_id, from_org_id, from_user_id, amount_paid], "marketplace");
+                    const from_account_id = await this.Ctx.ERC721Account.generateAccountId(from_org_id, from_user_id);                   
+                    const to_account_id = await this.Ctx.ERC721Account.generateAccountId(to_org_id, to_user_id);         
+                    await this.Ctx.ERC721Token.transferFrom(from_account_id, to_account_id, t);
+     
+                    msg = `Token ID : '${nonfungible_token_id}' has been successfully transferred to UserID : '${to_user_id}'`;           
+              }           
+            }
+            else {
+                msg = `Token ID : '${nonfungible_token_id}' has not been transferred to UserID : '${to_user_id}' as the amount was not fully paid'`;
+            }
+            return msg;
+       } catch(error)
+          {
+            throw new Error(error.message);
+         }
+}
+@Validator(yup.string(), yup.string(), yup.string(), yup.string(), yup.string(), yup.number())
+    public async buyWithDirectPayment(from_org_id: string, from_user_id: string, to_org_id: string, to_user_id: string, nonfungible_token_id: string, amount_paid: number) {
+         try {  
+             const token = await this.Ctx.ERC721Token.get(nonfungible_token_id);
+             const t = new MoroccanArtCollections(token);
+             var msg = `Token ID : '${nonfungible_token_id}' had not been transferred'`;           
+           if (t.on_sale_flag==true) {
+                 if(t.price == amount_paid) {                   
+                 const from_account_id = await this.Ctx.ERC721Account.generateAccountId(from_org_id, from_user_id);         
+                 const to_account_id = await this.Ctx.ERC721Account.generateAccountId(to_org_id, to_user_id);                   
+                 await this.Ctx.ERC721Token.transferFrom(from_account_id, to_account_id, t);
+                   
+                 msg = `Token ID : '${nonfungible_token_id}' has been successfully transferred to UserID : '${to_user_id}'`;
+                 }
+             }
+             else {
+                 msg = `Token ID : '${nonfungible_token_id}' has not been transferred to UserID : '${to_user_id}' as the amount was not fully paid'`;
+             }
+             return msg;
+         } catch(error) {         
+             throw new Error(error.message);
+         }
+      }
+}
+```
+
 | :information_source: Note          |
 |:-----------------------------------|
 | ```executeQuery``` method enables you to execute SQL-ish queries on top of the world state database! Count, group, filter assets and more. Detailed instructions can be found [here](https://docs.oracle.com/en/database/other-databases/blockchain-enterprise/21.1/user/supported-rich-query-syntax.html#GUID-7A7766A3-EA2C-4A3D-BE62-7B4EC747EE5B).|
@@ -150,13 +236,13 @@ Invoke the chaincode `createArtCollectionToken`. When you receive response **"re
 - Request body :
 ```json
 {
-    "chaincode": "{{NFTChaincode}}",
-    "args": [
-        "createArtCollectionToken",
-        "{\"token_id\":\"{{NFTTokenID}}\",\"token_uri\":\"https://ipfs.io/ipfs/QmV68aiT7xw2WX8pmDbeTWpGP2or35NUFan9RagymsLpgV?filename=ArtCollection_NFT1.json\",\"metadata\":{\"painting_name\":\"Oracle - Red Bull Partnership\",\"image\":\"https://ipfs.io/ipfs/QmVap6Gkh3Cp9DiLLWvkvJHpuXpFmYB2GzU1caM57gNcAa?filename=Oracle_RedBull_NFT1.jpeg\",\"painter\":\"Abderrahim\"},\"price\":200,\"on_sale_flag\":false}"
-    ],
-    "timeout": 0,
-    "sync": true
+      "chaincode": "{{NFTChaincode}}",
+      "args": [
+              "createArtCollectionToken",
+              "{\"token_id\":\"{{NFTTokenID}}\",\"token_uri\":\"https://ipfs.io/ipfs/QmV68aiT7xw2WX8pmDbeTWpGP2or35NUFan9RagymsLpgV?filename=ArtCollection_NFT1.json\",\"metadata\":{\"painting_name\":\"Oracle - Red Bull Partnership\",\"image\":\"https://ipfs.io/ipfs/QmVap6Gkh3Cp9DiLLWvkvJHpuXpFmYB2GzU1caM57gNcAa?filename=Oracle_RedBull_NFT1.jpeg\",\"painter\":\"Abderrahim\"},\"price\":200,\"on_sale_flag\":false}"
+      ],
+     "timeout": 0,
+     "sync": true
 }
 
 ```
