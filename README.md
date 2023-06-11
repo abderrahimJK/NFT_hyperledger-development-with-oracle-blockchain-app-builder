@@ -10,13 +10,13 @@ Using Oracle Blockchain we can create in minutes an Hyperledger Fabric network a
 - *Founder of the network*: ***aitbouna1***, a marketplace fot NFTs.
 
 <p align="center">
-<img width="371" height="392" src="https://github.com/abderrahimJK/NFT_hyperledger-development-with-oracle-blockchain-app-builder/blob/main/assets/p15.png"/>
+<img  src="https://github.com/abderrahimJK/NFT_hyperledger-development-with-oracle-blockchain-app-builder/blob/main/assets/p15.png"/>
 </p>
 
 AppBuilder will help you to reduce considerably the complexity of the development, packaging, testing, and deployment of Hyperledger Fabric chaincodes, giving you the option to create them in different languages (TypeScript or Go).
 
 <p align="center">
-<img width="814" height="392" src="https://github.com/abderrahimJK/NFT_hyperledger-development-with-oracle-blockchain-app-builder/blob/main/assets/p7.png"/>
+<img  src="https://github.com/abderrahimJK/NFT_hyperledger-development-with-oracle-blockchain-app-builder/blob/main/assets/p7.png"/>
 </p>
 
 Here you have the links to each of the labs to fulfill this project:

@@ -62,6 +62,7 @@ In this sample specification file you can see all the sections and attributes fo
 - ***customMethods***: Place where a list of non estandard methods are defined. For those methods AppBuilder will only generate the signature of the method, without any implementation on them. The implementation of these methods are the only code the be implemented by the developer.
 
 After you detect all the necessary business processes over the assets in the chaincode, you create a list of custom methods. We will implement those methods afterward when the scaffolded project is generated. Let's add all the required smart contracts in the ```customMethods``` block:
+
 ```yaml
  customMethods:
    - executeQuery
